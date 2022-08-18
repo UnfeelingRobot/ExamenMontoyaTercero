@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         textRegister = findViewById(R.id.textRegister);
         loginButton = findViewById(R.id.login_button);
-        inputLayoutUser = findViewById(R.id.email);
+        inputLayoutUser = findViewById(R.id.username);
         inputLayoutPassword = findViewById(R.id.password);
         inputUser=findViewById(R.id.input_user);
         inputPassword=findViewById(R.id.input_password);
@@ -48,18 +48,25 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Functions.verifyCompleteData(inputUser, inputPassword)) {
-                    Functions.showAlert(LoginActivity.this, "Error in log in", "You have the enter complete data");
-                }
-               else if (!User.verifyUserExistence()){
-                    Functions.showAlert(LoginActivity.this, "Error in log in", "You have not registered");
-                }
-                else if (User.getName().equals(inputUser.getText().toString()) && User.getPassword().equals(inputPassword.getText().toString())){
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                    finish();
-                } else {
-                    Functions.showAlert(LoginActivity.this, "Error in log in", "The data is incorrect");
+                textUser=inputUser.getText().toString().trim();
+                textPassword=inputPassword.getText().toString().trim();
 
+                if(TextUtils.isEmpty(textUser) || TextUtils.isEmpty(textPassword)) {
+                    if (TextUtils.isEmpty(textUser)) {
+                        inputLayoutUser.setError("You must fill in the field with your email\n");
+                    } else {
+                        inputLayoutUser.setError(null);
+                    }
+                    if (TextUtils.isEmpty(textPassword)) {
+                        inputLayoutPassword.setError("\n" + "You must fill in the field with your password");
+                    } else {
+                        inputLayoutPassword.setError(null);
+                    }
+                }else{
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

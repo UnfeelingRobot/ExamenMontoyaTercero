@@ -54,19 +54,40 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Functions.verifyCompleteData(inputUsername, inputEmail, inputPassword)){
-                    Functions.showAlert(RegisterActivity.this, "Error in sign in", "You have the enter complete data");
+                textUsername=inputUsername.getText().toString();
+                textEmail=inputEmail.getText().toString().trim();
+                textPhone=inputPhone.getText().toString().trim();
+                textPassword=inputPassword.getText().toString().trim();
 
-                } else if (!inputEmail.getText().toString().endsWith("@gmail.com") && (!inputEmail.getText().toString().endsWith("@hotmail.com"))){
-                        Functions.showAlert(RegisterActivity.this, "Error in sign in", "The email entered is invalid");
+                if(TextUtils.isEmpty(textUsername) || TextUtils.isEmpty(textEmail) || TextUtils.isEmpty(textPhone) ||  TextUtils.isEmpty(textPassword) ){
+                    if(TextUtils.isEmpty(textUsername)) {
+                        inputLayoutUsername.setError("You must fill in the field with your name");
+                    } else {
+                        inputLayoutUsername.setError(null);
+                    }
+                    if(TextUtils.isEmpty(textEmail)) {
+                        inputLayoutEmail.setError("You must fill in the field with your email\n");
+                    }
+                    else {
+                        inputLayoutEmail.setError(null);
+                    }
+                    if(TextUtils.isEmpty(textPhone)) {
+                        inputLayoutPhoneNumber.setError("You must fill in the field with your number\n");
+                    }
+                    else {
+                        inputLayoutPhoneNumber.setError(null);
+                    }
+                    if(TextUtils.isEmpty(textPassword)) {
+                        inputLayoutPassword.setError("You must fill in the field with your password");
+                    }
+                    else {
+                        inputLayoutPassword.setError(null);
+                    }
+                } else {
 
-                }else{
-                    User.setName(inputUsername.getText().toString());
-                    User.setEmail(inputEmail.getText().toString());
-                    User.setPassword(inputPassword.getText().toString());
-                    Snackbar sb = Snackbar.make(view, "Registered user successfully. Now log in.",
+                    Snackbar sb = Snackbar.make(view, "Registered user successfully. Now log in",
                             Snackbar.LENGTH_LONG);
-                    sb.setDuration(5000);
+                    sb.setDuration(2000);
                     sb.show();
                 }
             }
